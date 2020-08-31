@@ -1,12 +1,67 @@
 body {
-  font-family: 'Ubuntu'; font-size: 22px;
-  background-color: #eee;
+  font-family: 'Ubuntu', monospace;
+  font-size: 22px;
+  color: #fff;
+  background-color: #000;
+  max-width: 93%;
+  margin: auto;
   transition: all 0.5s ease;
 }
 
+hr {
+  border: 0.1em solid #888;
+  border-radius: 1pt;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em
+}
+
+header {
+  text-align: center;
+}
+
 nav {
-  background-color: darkblue;
+  background-color: inherit;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  text-align: center;
+  font-size: 32px;
+}
+
+a.navbar {
+  color: #000;
+  background-color: #fff;
+  text-decoration: none;
+  padding: 0.1em 0.1em 0.1em 0.1em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+a.current {
+  color: #fff;
+  background-color: #000;
+  text-decoration: none;
+  padding: 0.1em 0.1em 0.1em 0.1em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+a.navbar:hover {
+  color: #fff;
+  background-color: #000;
+}
+
+img.portfolio {
+  width: 33%;
 }
 
 footer {
+  text-align: center;
+  position: fixed;
+  bottom: 0%;
+  width: 93%;
+}
+
+.icon {
+  width: 50px;
 }
