@@ -1,0 +1,22 @@
+section.set {
+  margin-bottom: 1em;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1em;
+}
+
+article.gallery h2 {
+  margin-left: 0em;
+  margin-bottom: 0.5em;
+}
+
+div.image {
+  width: 100%;
+}
+
+div.image:hover {
+}
+
+div.image img {
+  width: 100%;
+}
