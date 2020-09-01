@@ -54,12 +54,19 @@ a.navbar:hover {
 }
 
 article.gallery img {
-  width: 33%;
+  width: 30%;
   float: left;
+  margin: 1.1111%;
 }
 
 section.set {
   float: left;
+  margin-bottom: 1em;
+}
+
+h2.set_title {
+  margin-left: 0.5em;
+  margin-bottom: 0;
 }
 
 footer {
