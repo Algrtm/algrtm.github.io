@@ -3,7 +3,7 @@ body {
   font-size: 22px;
   color: #fff;
   background-color: #000;
-  /*max-width: 93%;*/
+  max-width: 93%;
   margin: auto;
   transition: all 0.5s ease;
   overflow: auto;
@@ -54,7 +54,12 @@ a.navbar:hover {
 }
 
 article.gallery img {
-  width: 32.99999%;
+  width: 33%;
+  float: left;
+}
+
+section.set {
+  float: left;
 }
 
 footer {
