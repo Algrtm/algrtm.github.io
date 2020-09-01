@@ -41,7 +41,8 @@ a.navbar {
 a.current {
   color: #fff;
   background-color: #000;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: #fff;
   padding: 0.1em 0.1em 0.1em 0.1em;
   margin-left: 0.5em;
   margin-right: 0.5em;
@@ -52,8 +53,8 @@ a.navbar:hover {
   background-color: #000;
 }
 
-img.portfolio {
-  width: 31%;
+article.gallery img {
+  width: 32.99999%;
 }
 
 footer {
