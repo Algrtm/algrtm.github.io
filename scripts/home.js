@@ -55,7 +55,7 @@ function showcaseImages() {
       fadein(images[0], fadeDelay);
       fadein(images[1], fadeDelay);
       fadein(images[2], fadeDelay);
-    }, fadeDelay);
+    }, fadeDelay+200);
   }, switchDelay);
 }
 
