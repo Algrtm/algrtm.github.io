@@ -6,8 +6,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
     <link rel="stylesheet" href="style/main.css">
     <link rel="stylesheet" href="style/gallery.css">
+    <script type="text/javascript" src="scripts/main.js"></script>
+    <script type="text/javascript" src="scripts/gallery.js"></script>
   </head>
-  <body>
+  <body onload="mainOnLoad(); onResize()" onresize="mainOnResize(); onResize()">
+    <script>document.body.className = 'fade';</script>
 
     <nav>
       <a class="navbar" href="index.html">Home</a>
@@ -21,109 +24,143 @@
       <h1>Portfolio</h1>
     </header>
 
+    <div id="pageOverlay" onclick="closeImage()"></div>
+    <div id="imageView">
+      <img src="">
+      <p>qwe</p>
+    </div>
+
     <article class="gallery">
-      <!--<section>
-        <h2></h2>
-        <img class="portfolio" src="resources/portfolio/.png">
-      </section>-->
+
+      <!-- <h2></h2>
+      <section>
+        <div class="image" onclick="showImage( ID )">
+          <img src="resources/portfolio/ ID .png">
+          <div class="overlay"></div>
+        </div>
+      </section> -->
 
       <h2>Orb</h2>
       <section class="set">
-        <div class="image">
+        <div class="image" onclick="showImage(1598390416920)">
           <img src="resources/portfolio/1598390416920.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
+        <div class="image" onclick="showImage(1598390613842)">
           <img src="resources/portfolio/1598390613842.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
+        <div class="image" onclick="showImage(1598396374597)">
           <img src="resources/portfolio/1598396374597.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
+        <div class="image" onclick="showImage(1598396537100)">
           <img src="resources/portfolio/1598396537100.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
+        <div class="image" onclick="showImage(1598396753247)">
           <img src="resources/portfolio/1598396753247.png">
+          <div class="overlay"></div>
         </div>
       </section>
 
       <h2>Broken sun</h2>
       <section class="set">
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1597001420786.png">
+        <div class="image" onclick="showImage(1597001420786)">
+          <img  src="resources/portfolio/1597001420786.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1597001676721.png">
+        <div class="image" onclick="showImage(1597001676721)">
+          <img  src="resources/portfolio/1597001676721.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1598395517935.png">
+        <div class="image" onclick="showImage(1598395517935)">
+          <img  src="resources/portfolio/1598395517935.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1598394466525.png">
+        <div class="image" onclick="showImage(1598394466525)">
+          <img  src="resources/portfolio/1598394466525.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1598390803289.png">
+        <div class="image" onclick="showImage(1598390803289)">
+          <img  src="resources/portfolio/1598390803289.png">
+          <div class="overlay"></div>
         </div>
       </section>
 
       <h2>Checkerboard</h2>
       <section class="set">
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1596928142578.png">
+        <div class="image" onclick="showImage(1596928142578)">
+          <img  src="resources/portfolio/1596928142578.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1596928287737.png">
+        <div class="image" onclick="showImage(1596928287737)">
+          <img  src="resources/portfolio/1596928287737.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1596928461250.png">
+        <div class="image" onclick="showImage(1596928461250)">
+          <img  src="resources/portfolio/1596928461250.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1596928818819.png">
+        <div class="image" onclick="showImage(1596928818819)">
+          <img  src="resources/portfolio/1596928818819.png">
+          <div class="overlay"></div>
         </div>
       </section>
 
       <h2>Waves</h2>
       <section class="set">
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1594353791749.png">
+        <div class="image" onclick="showImage(1594353791749)">
+          <img  src="resources/portfolio/1594353791749.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1594354229233.png">
+        <div class="image" onclick="showImage(1594354229233)">
+          <img  src="resources/portfolio/1594354229233.png">
+          <div class="overlay"></div>
         </div>
       </section>
 
       <h2>Maze</h2>
       <section class="set">
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1597012926052.png">
+        <div class="image" onclick="showImage(1597012926052)">
+          <img  src="resources/portfolio/1597012926052.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1597013019395.png">
+        <div class="image" onclick="showImage(1597013019395)">
+          <img  src="resources/portfolio/1597013019395.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1597013164096.png">
+        <div class="image" onclick="showImage(1597013164096)">
+          <img  src="resources/portfolio/1597013164096.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1597013379856.png">
+        <div class="image" onclick="showImage(1597013379856)">
+          <img  src="resources/portfolio/1597013379856.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1597013485958.png">
+        <div class="image" onclick="showImage(1597013485958)">
+          <img  src="resources/portfolio/1597013485958.png">
+          <div class="overlay"></div>
         </div>
       </section>
 
       <h2>Void</h2>
       <section class="set">
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1594360056479.png">
+        <div class="image" onclick="showImage(1594360056479)">
+          <img  src="resources/portfolio/1594360056479.png">
+          <div class="overlay"></div>
         </div>
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1594360278280.png">
+        <div class="image" onclick="showImage(1594360278280)">
+          <img  src="resources/portfolio/1594360278280.png">
+          <div class="overlay"></div>
         </div>
       </section>
 
       <h2>Dunes</h2>
       <section class="set">
-        <div class="image">
-          <img class="portfolio" src="resources/portfolio/1594879146752.png">
+        <div class="image" onclick="showImage(1594879146752)">
+          <img  src="resources/portfolio/1594879146752.png">
+          <div class="overlay"></div>
         </div>
       </section>
     </article>

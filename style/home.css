@@ -1,0 +1,25 @@
+#showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1em;
+}
+
+div.image {
+  position: relative;
+  width: 100%;
+}
+
+div.image img {
+  display: block;
+  width: 100%;
+  opacity: 0;
+}
+
+div.overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  transition: .5s ease;
+  opacity:1;
+}

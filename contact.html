@@ -6,8 +6,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
     <link rel="stylesheet" href="style/main.css">
     <link rel="stylesheet" href="style/text.css">
+    <script type="text/javascript" src="scripts/main.js"></script>
   </head>
-  <body>
+  <body onload="mainOnLoad()" onresize="mainOnResize()">
+    <script>document.body.className = 'fade';</script>
 
     <nav>
       <a class="navbar" href="index.html">Home</a>

@@ -6,8 +6,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
     <link rel="stylesheet" href="style/main.css">
     <link rel="stylesheet" href="style/text.css">
+    <script type="text/javascript" src="scripts/main.js"></script>
   </head>
-  <body>
+  <body onload="mainOnLoad()" onresize="mainOnResize()">
+    <script>document.body.className = 'fade';</script>
 
     <nav>
       <a class="navbar" href="index.html">Home</a>
@@ -25,19 +27,21 @@
       <section>
         <h2>What this is</h2>
         <p>
-          This project began as a merger of my hobbies: programming and photography. The result - high resolution and quality abstract art pieces.
+          This project began as a merger of my hobbies: programming, photography and digital art. The result - high resolution and quality abstract art pieces based on algorithms and math equations.
         </p>
       </section>
 
       <section>
         <h2>Who I am</h2>
-        <p>Just a computer science student.</p>
+        <p>
+          Computer science student at UNC Chapel Hill.
+        </p>
       </section>
 
       <section>
         <h2>How I create</h2>
         <p>
-          I wrote the software that basically allows me to enter math equations, tune parameters and render art in a variety of resolutions.
+          I wrote custom software that allows me to enter any algorithm and/or math equation, tune parameters and render art in extremely (or unlimited, given enough RAM) high resolutions.
         </p>
       </section>
     </article>

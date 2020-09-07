@@ -6,8 +6,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
     <link rel="stylesheet" href="style/main.css">
     <link rel="stylesheet" href="style/text.css">
+    <link rel="stylesheet" href="style/home.css">
+    <script type="text/javascript" src="scripts/main.js"></script>
+    <script type="text/javascript" src="scripts/home.js">
+
+    </script>
   </head>
-  <body>
+  <body onload="mainOnLoad(); showcaseImages()" onresize="mainOnResize()">
+    <script>document.body.className = 'fade';</script>
 
     <nav>
       <a class="current" href="index.html">Home</a>
@@ -17,7 +23,6 @@
       <hr>
     </nav>
 
-
     <header>
       <h1>Completely Abstract</h1>
     </header>
@@ -26,14 +31,28 @@
       <section>
         <h2>Artworks</h2>
         <p>
-          To view sample photos of my artworks navigate to the Portfolio section. For those interested in purchasing, read the following paragraph.
+          To view sample photos of my artworks navigate to the <a class="in_text" href="portfolio.html">Portfolio</a> section.
         </p>
+        <aside id="showcase">
+          <div class="image" onclick="showImage(1597012926052)">
+            <img src="resources/portfolio/1594879146752.png">
+            <div class="overlay"></div>
+          </div>
+          <div class="image" onclick="showImage(1597013019395)">
+            <img src="resources/portfolio/1597001420786.png">
+            <div class="overlay"></div>
+          </div>
+          <div class="image" onclick="showImage(1597013164096)">
+            <img src="resources/portfolio/1597013379856.png">
+            <div class="overlay"></div>
+          </div>
+        </aside>
       </section>
 
       <section>
         <h2>Purchase & Pricing</h2>
         <p>
-          Every artwork is completely customizable and should be treated more like a template for future changes (i.e. color, shape, resolution). The amount of changes does NOT change the price, however the resolution DOES. Further details and prices are discussed personally, for contact details navigate to the Contact section.
+          Every artwork is completely customizable and should be treated more like a template for future changes (i.e. color, shape, resolution). The amount of changes does NOT change the price, however the resolution DOES. Further details and prices are discussed personally, for contact details navigate to the <a class="in_text" href="contact.html">Contact</a> section.
         </p>
       </section>
     </article>

@@ -27,3 +27,10 @@ article a:hover {
   background-color: #000;
   text-decoration: underline;
 }
+
+a.in_text {
+  font-size: inherit;
+  padding: 0.1em;
+  padding-top: 0;
+  padding-bottom: 0;
+}
