@@ -5,6 +5,7 @@
     <link rel="icon" href="resources/icons/website_icon.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
     <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="style/links.css">
     <link rel="stylesheet" href="style/text.css">
     <link rel="stylesheet" href="style/home.css">
     <script type="text/javascript" src="scripts/main.js"></script>
@@ -17,9 +18,9 @@
 
     <nav>
       <a class="current" href="index.html">Home</a>
-      <a class="navbar" href="portfolio.html">Portfolio</a>
-      <a class="navbar" href="contact.html">Contact</a>
-      <a class="navbar" href="about.html">About</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>
       <hr>
     </nav>
 
@@ -28,32 +29,39 @@
     </header>
 
     <article>
-      <section>
+      <section class="text">
         <h2>Artworks</h2>
         <p>
-          To view sample photos of my artworks navigate to the <a class="in_text" href="portfolio.html">Portfolio</a> section.
+          944 megapixel (30,720 pixels wide and high) artworks, composed by math and algorithms. View more of my art in the <a class="in_text" href="portfolio.html">Portfolio</a> section (click on one to view fullscreen).
         </p>
-        <aside id="showcase">
-          <div class="image" onclick="showImage(1597012926052)">
-            <img src="resources/portfolio/1594879146752.png">
-            <div class="overlay"></div>
-          </div>
-          <div class="image" onclick="showImage(1597013019395)">
-            <img src="resources/portfolio/1597001420786.png">
-            <div class="overlay"></div>
-          </div>
-          <div class="image" onclick="showImage(1597013164096)">
-            <img src="resources/portfolio/1597013379856.png">
-            <div class="overlay"></div>
-          </div>
-        </aside>
       </section>
 
-      <section>
+      <aside id="showcase">
+        <div class="image" onclick="showImage(1597012926052)">
+          <img src="resources/portfolio/1594879146752.png">
+          <div class="overlay"></div>
+        </div>
+        <div class="image" onclick="showImage(1597013019395)">
+          <img src="resources/portfolio/1597001420786.png">
+          <div class="overlay"></div>
+        </div>
+        <div class="image" onclick="showImage(1597013164096)">
+          <img src="resources/portfolio/1597013379856.png">
+          <div class="overlay"></div>
+        </div>
+      </aside>
+
+      <section class="text">
         <h2>Purchase & Pricing</h2>
         <p>
-          Every artwork is completely customizable and should be treated more like a template for future changes (i.e. color, shape, resolution). The amount of changes does NOT change the price, however the resolution DOES. Further details and prices are discussed personally, for contact details navigate to the <a class="in_text" href="contact.html">Contact</a> section.
+          Every artwork is completely customizable and should be treated more like a template (i.e. change color, shape, resolution). The changes do NOT influence the price, however the resolution DOES. Further details and prices are discussed personally. Contact me via the <a class="in_text" href="contact.html">Contact</a> section or the links below.
         </p>
+      </section>
+
+      <section id="contact">
+        <a href = "mailto: completely.abstract@gmail.com">My E-mail</a>
+        <a href="https://twitter.com/CompletelyAbst1" target="_blank">My Twitter</a>
+        <a href="https://instagram.com/completely.abstract" target="_blank">My Instagram</a>
       </section>
     </article>
 

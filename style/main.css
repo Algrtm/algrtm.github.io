@@ -25,7 +25,7 @@ body.fade {
 }
 
 hr {
-  border: 0.1em solid #888;
+  border: 0.1em solid #aaa;
   border-radius: 1pt;
   margin-top: 0.3em;
   margin-bottom: 0.3em
@@ -47,35 +47,8 @@ nav {
   font-size: 0;
 }
 
-nav a {
-  padding: 0.1em 0.1em 0.1em 0.1em;
-  margin-left: 0.2em;
-  margin-right: 0.2em;
-}
-
-a.navbar {
-  color: #000;
-  background-color: #fff;
-  text-decoration: none;
-}
-
-a.current {
-  color: #fff;
-  background-color: #000;
-  text-decoration: underline;
-  text-decoration-color: #fff;
-}
-
-a.navbar:hover {
-  color: #fff;
-  background-color: #000;
-}
-
 footer {
-  text-align: center;
-  position: fixed;
-  bottom: 0%;
-  width: 93%;
+
 }
 
 .icon {

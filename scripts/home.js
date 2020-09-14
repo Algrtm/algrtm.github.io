@@ -25,11 +25,18 @@ function showcaseImages() {
     '1598395517935',
     '1598396374597',
     '1598396537100',
-    '1598396753247'
+    '1598396753247',
+    '1600044156764',
+    '1600044289701',
+    '1600044431275',
+    '1600044897787',
+    '1600046765088',
+    '1600047602575',
+    '1600048014186',
   ];
 
   var fadeDelay = 500;
-  var switchDelay = 3000;
+  var switchDelay = 3500;
 
   setTimeout(function() {
     fadein(images[0], fadeDelay);
@@ -45,9 +52,14 @@ function showcaseImages() {
 
     // New image
     setTimeout(function() {
-      images[0].src = 'resources/portfolio/' + files[Math.floor(Math.random() * files.length)] + '.png';
-      images[1].src = 'resources/portfolio/' + files[Math.floor(Math.random() * files.length)] + '.png';
-      images[2].src = 'resources/portfolio/' + files[Math.floor(Math.random() * files.length)] + '.png';
+      do {
+        var img1 = Math.floor(Math.random() * files.length);
+        var img2 = Math.floor(Math.random() * files.length);
+        var img3 = Math.floor(Math.random() * files.length);
+      } while (img1 == img2 || img1 == img3 || img2 == img3);
+      images[0].src = 'resources/portfolio/' + files[img1] + '.png';
+      images[1].src = 'resources/portfolio/' + files[img2] + '.png';
+      images[2].src = 'resources/portfolio/' + files[img3] + '.png';
     }, fadeDelay);
 
     // Fadein

@@ -1,7 +1,7 @@
 function onResize() {
   // Gallery rescaling for landscape
   var sets = document.getElementsByClassName('set');
-  if (window.innerWidth > window.innerHeight) {
+  if (DEVICE_TYPE == DESKTOP || DEVICE_TYPE == HALF) {
     for (var index = 0; index < sets.length; index++) {
       sets[index].style.gridTemplateColumns = "1fr 1fr 1fr 1fr 1fr";
     }
@@ -12,7 +12,7 @@ function onResize() {
   }
 
   // Image View auto resize
-  var imageScale = 0.8;
+  var imageScale = 0.9;
   var imageSize;
   if (window.innerWidth < window.innerHeight) {
     imageSize = window.innerWidth * imageScale;
@@ -62,19 +62,18 @@ function clearAllIntervals() {
   }
 }
 
-function showImage(imageID) {
+function showImage(set, imageID) {
   clearAllIntervals();
-  onResize();
 
   var imageView = document.getElementById('imageView');
   var image = imageView.getElementsByTagName('img')[0];
-  image.src = "resources/portfolio/high/" + imageID + ".png";
+  image.src = "resources/portfolio/high/" + set + "/" + imageID + ".png";
   imageView.style.display = 'table';
   document.getElementById('pageOverlay').style.display = 'block';
 
-  document.body.getElementsByTagName('nav')[0].className = 'blur';
-  document.body.getElementsByTagName('header')[0].className = 'blur';
-  document.body.getElementsByTagName('article')[0].className = 'blur';
+  document.body.getElementsByTagName('nav')[0].classList.add("blur");
+  document.body.getElementsByTagName('header')[0].classList.add("blur");
+  document.body.getElementsByTagName('article')[0].classList.add("blur");
 
   var intervalID = setInterval(
     function() {
@@ -99,8 +98,8 @@ function closeImage() {
     imageView.style.display = 'none';
     document.getElementById('pageOverlay').style.display = 'none';
 
-    document.body.getElementsByTagName('nav')[0].className = '';
-    document.body.getElementsByTagName('header')[0].className = '';
-    document.body.getElementsByTagName('article')[0].className = '';
+    document.body.getElementsByTagName('nav')[0].classList.remove("blur");
+    document.body.getElementsByTagName('header')[0].classList.remove("blur");
+    document.body.getElementsByTagName('article')[0].classList.remove("blur");
   }, 100);
 }

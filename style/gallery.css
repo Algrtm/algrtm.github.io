@@ -1,4 +1,5 @@
 section.set {
+  display: block;
   margin-bottom: 1em;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -15,6 +16,12 @@ div.image {
   width: 100%;
 }
 
+div.image:hover {
+  -webkit-box-shadow: 0px 0px 8px 2px #0ff;
+  -moz-box-shadow: 0px 0px 8px 2px #0ff;
+  box-shadow: 0px 0px 8px 2px #0ff;
+}
+
 div.overlay {
   position: absolute;
   bottom: 0;
@@ -27,6 +34,12 @@ div.overlay {
 div.image img {
   display: block;
   width: 100%;
+}
+
+#update {
+  text-align: center;
+  font-size: 28px;
+  line-height: 1.7em;
 }
 
 #imageView {
@@ -54,7 +67,7 @@ div.image img {
 #imageView p {
   display:table-row;
   background-color: #fff;
-  opacity: 0;
+  opacity: 1;
 }
 
 #pageOverlay {
