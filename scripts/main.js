@@ -47,6 +47,7 @@ function switchSiteVersion() {
       }
       for (var index = 0; index < textSections.length; index++) {
         textSections[index].style.maxWidth = "50%";
+        textSections[index].style.fontSize = "22px";
       }
       for (var index = 0; index < asideSections.length; index++) {
         asideSections[index].style.maxWidth = "50%";
@@ -56,11 +57,12 @@ function switchSiteVersion() {
     case HALF:
       navbar.style.fontSize = "30px";
       for (var index = 0; index < navbar_links.length; index++) {
-        navbar_links[index].style.marginLeft = "0.5em";
-        navbar_links[index].style.marginRight = "0.5em";
+        navbar_links[index].style.marginLeft = "0.4em";
+        navbar_links[index].style.marginRight = "0.4em";
       }
       for (var index = 0; index < textSections.length; index++) {
         textSections[index].style.maxWidth = "100%";
+        textSections[index].style.fontSize = "22px";
       }
       for (var index = 0; index < asideSections.length; index++) {
         asideSections[index].style.maxWidth = "100%";
@@ -68,12 +70,13 @@ function switchSiteVersion() {
       break;
 
     case MOBILE:
-      navbar.style.fontSize = "6vw";
+      navbar.style.fontSize = "2.5em";
       for (var index = 0; index < navbar_links.length; index++) {
         navbar_links[index].style.margin = "0";
       }
       for (var index = 0; index < textSections.length; index++) {
         textSections[index].style.maxWidth = "100%";
+        textSections[index].style.fontSize = "36px";
       }
       for (var index = 0; index < asideSections.length; index++) {
         asideSections[index].style.maxWidth = "100%";

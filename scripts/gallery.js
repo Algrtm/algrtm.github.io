@@ -11,6 +11,15 @@ function onResize() {
     }
   }
 
+  // Hide update for MOBILE
+  if (DEVICE_TYPE == MOBILE) {
+    document.getElementsByTagName('header')[0].style.display = "none";
+    document.getElementById('update').style.display = "none";
+  } else {
+    document.getElementsByTagName('header')[0].style.display = "block";
+    document.getElementById('update').style.display = "block";
+  }
+
   // Image View auto resize
   var imageScale = 0.9;
   var imageSize;
