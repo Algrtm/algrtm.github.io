@@ -32,6 +32,7 @@ body {
 
 .segment {
     margin-bottom: 1em;
+    transition: all 0.5s;
 }
 
 header {
@@ -85,6 +86,7 @@ hr {
     margin-top: 0.3em;
     margin-bottom: 0.3em;
     width: 100%;
+    transition: all 0.5s;
 }
 
 footer {
@@ -101,7 +103,7 @@ footer {
     bottom: 3%;
     right: 3%;
     z-index: 2;
-    width: 4em;
+    width: 80px;
     opacity: 0.5;
 
     transition: all 0.3s;

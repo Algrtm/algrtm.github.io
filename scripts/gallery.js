@@ -1,29 +1,28 @@
 function hideImage(event) {
-    $("#totop").removeClass("blur");
-    $("#intro").removeClass("blur");
-    $("#gallery").removeClass("blur");
-    $("#contacts").removeClass("blur");
-    $("#pageoverlay").css("display", "none");
+    $("#totop, #intro, #gallery, #contacts, hr").removeClass("blur");
+    $("#totop").css("display", "block");
     $("#imageview").removeClass("show");
+    $("#pageoverlay").css("display", "none");
 }
 
 function showImage(event) {
-    $("#totop").addClass("blur");
-    $("#intro").addClass("blur");
-    $("#gallery").addClass("blur");
-    $("#contacts").addClass("blur");
-
+    $("#totop, #intro, #gallery, #contacts, hr").addClass("blur");
+    $("#totop").css("display", "none");
     $("#pageoverlay").css("display", "block");
 
     let image = $("<img>").attr("src", $(event.target).parent().children().get(0).src);
+    let overlay = $('<div class="overlay"></div>');
 
     let imageView = $("#imageview");
     imageView.append(image);
-    imageView.append('<div class="overlay"></div>');
+    imageView.append(overlay);
     imageView.addClass("show");
     imageView.on("click", (event) => {
         hideImage(event);
-        image.remove();
+        setTimeout(function() {
+            image.remove();
+            overlay.remove();
+        }, 300);
     });
 }
 
