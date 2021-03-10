@@ -4,68 +4,78 @@
     <title>Algrtm</title>
     <link rel="icon" href="resources/icons/website_icon.png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
-    <link rel="stylesheet" href="style/main.css">
-    <link rel="stylesheet" href="style/links.css">
-    <link rel="stylesheet" href="style/text.css">
-    <link rel="stylesheet" href="style/home.css">
-    <script type="text/javascript" src="scripts/main.js"></script>
-    <script type="text/javascript" src="scripts/home.js">
-
+    <link rel="stylesheet" href="style/index.css">
+    <link rel="stylesheet" href="style/gallery.css">
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="scripts/data.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
+    <script type="text/javascript" src="scripts/gallery.js"></script>
     </script>
   </head>
-  <body onload="mainOnLoad(); showcaseImages()" onresize="mainOnResize()">
+  <body>
     <script>document.body.className = 'fade';</script>
 
-    <nav>
-      <a class="current" href="index.html">Home</a>
-      <a href="portfolio.html">Portfolio</a>
-      <a href="about.html">About</a>
-      <hr>
-    </nav>
+    <a id="top"></a>
+    <div id="totop">
+      <a href="#top">
+        <img src="resources/icons/arrow.svg" alt="Up">
+      </a>
+    </div>
 
-    <header>
-      <h1>Alg[0]r[1]tm</h1>
-    </header>
-
-    <article>
+    <div id="intro" class="segment">
+      <header>
+        <h1>Algrtm</h1>
+      </header>
       <section class="text">
         <h2>Artworks</h2>
         <p>
-          944 megapixel (30,720 pixels wide and high) artworks, composed by math and algorithms. View more of my art in the <a class="in_text" href="portfolio.html">Portfolio</a> section (click on one to view fullscreen).
+          944 megapixel (30,720 pixels wide and high) artworks, composed by math and algorithms. View more of my art in the <a class="link inline" href="#gallery">Gallery</a> section. <span class="hint">(click on one to view fullscreen)</span>
         </p>
       </section>
-
-      <aside id="showcase">
-        <div class="image" onclick="showImage(1597012926052)">
-          <img src="resources/portfolio/1594879146752.png">
-          <div class="overlay"></div>
-        </div>
-        <div class="image" onclick="showImage(1597013019395)">
-          <img src="resources/portfolio/1597001420786.png">
-          <div class="overlay"></div>
-        </div>
-        <div class="image" onclick="showImage(1597013164096)">
-          <img src="resources/portfolio/1597013379856.png">
-          <div class="overlay"></div>
-        </div>
-      </aside>
-
       <section class="text">
-        <h2>Purchase & Pricing</h2>
+        <h2>About the project</h2>
         <p>
-          Every artwork is completely customizable and should be treated more like a template (i.e. change color, shape, resolution). Further details and prices are discussed personally. You can contact me via the links below.
+          This project began as a merger of my hobbies: programming and digital art. The result - high resolution abstract artworks, based on algorithms and mathematics.
+          <br>
+          You can find my social media down in the <a class="link inline" href="#contacts">contacts</a> section.
         </p>
       </section>
-
-      <section id="contact">
-        <a href = "mailto: algrtm.art@gmail.com">My E-mail</a>
-        <a href="https://twitter.com/algrtm" target="_blank">My Twitter</a>
-        <a href="https://www.instagram.com/algrtm.art/" target="_blank">My Instagram</a>
+      <section class="text">
+        <h2>How I create</h2>
+        <p>
+          For the longest time I have been using Java as my programming language of choice, so I wrote a software that can render any algorithm and/or math equation as a still image or frame by frame animation.
+        </p>
       </section>
-    </article>
+    </div>
 
+    <hr>
+    
+    <div id="pageoverlay"></div>
+    <div id="imageview"></div>
+    <div id="gallery" class="segment">
+      <header>
+        <h1>Gallery</h1>
+      </header>
+    </div>
+
+    <hr>
+
+    <div id="contacts" class=segment>
+      <header>
+        <h1>Contacts</h1>
+      </header>
+      <section class="text">
+        <p>
+          <a class="link" href="https://www.instagram.com/algrtm.art/" target="_blank">My Instagram</a>
+        <a class="link" href = "mailto: algrtm.art@gmail.com">My E-mail</a>
+        </p>
+      </section>
+    </div>
+
+    <!-- <hr>
     <footer>
-    </footer>
+      Created by Pavel Sherstyuk
+    </footer> -->
 
   </body>
 </html>

@@ -1,76 +1,60 @@
-section.set {
+.artset {
   display: block;
-  margin-bottom: 1em;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 1em;
+  transition: opacity 0.5s ease-in;
 }
 
-article.gallery h2 {
-  margin-left: 0em;
-  margin-bottom: 0.5em;
+.artsection {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
 }
 
-div.image {
+.fade {
+  opacity: 0;
+  transition: none;
+}
+
+#gallery {
+  transition: all 0.2s ease-in-out;
+}
+
+#gallery .image {
   position: relative;
   width: 100%;
+  transition: all 0.2s ease-in-out;
 }
 
-div.image:hover {
-  -webkit-box-shadow: 0px 0px 8px 2px #0ff;
-  -moz-box-shadow: 0px 0px 8px 2px #0ff;
-  box-shadow: 0px 0px 8px 2px #0ff;
+#gallery .image:hover {
+  -webkit-box-shadow: 0px 0px 20px 2px #0ff;
+  -moz-box-shadow: 0px 0px 20px 2px #0ff;
+  box-shadow: 0px 0px 20px 2px #0ff;
 }
 
-div.overlay {
+.overlay {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 100%;
-  transition: .5s ease;
+  transition: 0.5s ease;
   opacity:1;
 }
 
-div.image img {
+#gallery .image img {
   display: block;
   width: 100%;
 }
 
-#update {
-  text-align: center;
-  font-size: 28px;
-  line-height: 1.7em;
+.blur {
+  filter:blur(0.5rem);
+  -o-filter:blur(0.5rem);
+  -ms-filter:blur(0.5rem);
+  -moz-filter:blur(0.5rem);
+  -webkit-filter:blur(0.5rem);
 }
 
-#imageView {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  padding-bottom: 1em;
-  text-align: center;
-  display: none;
-  transform: translate(-50%, -50%);
-  z-index: 20;
-  background-color: rgba(0, 0, 0, 0);
-  color: #000;
-  opacity: 1;
-}
-
-#imageView img {
-  width: 100%;
-  display:table-row;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0);
-  opacity: 0;
-}
-
-#imageView p {
-  display:table-row;
-  background-color: #fff;
-  opacity: 1;
-}
-
-#pageOverlay {
+#pageoverlay {
   position: fixed;
   display: none;
   width: 100%;
@@ -79,16 +63,37 @@ div.image img {
   top: 0;
   right: 0;
   bottom: 0;
-  margin: 0;
-  padding: 0;
   opacity: 0;
-  z-index: 30;
+  z-index: 3;
 }
 
-.blur {
-  filter:blur(1rem);
-  -o-filter:blur(1rem);
-  -ms-filter:blur(1rem);
-  -moz-filter:blur(1rem);
-  -webkit-filter:blur(1rem);
+#imageview {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  display: block;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0;
+
+  transition: opacity 0.5s;
+}
+
+#imageview.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#imageview img {
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  margin:auto;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
 }

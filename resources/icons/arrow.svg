@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        stroke: aqua;
+        stroke-width: 12px;
+      }
+
+      .cls-2 {
+        fill: #00ff2b;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill-rule: evenodd;
+      }
+
+      .cls-3 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <circle class="cls-1" cx="100" cy="100" r="90"/>
+  <path id="Arrow_left" data-name="Arrow left" class="cls-2" d="M100,64L40,124Zm0,0L40,124Zm0,0L40,124Z"/>
+  <path id="Line_1" data-name="Line 1" class="cls-3" d="M100,64l60,60Z"/>
+</svg>
