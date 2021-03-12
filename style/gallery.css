@@ -26,6 +26,12 @@
   transition: all 0.2s ease-in-out;
 }
 
+.instagram-media {
+  position: relative;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
 #gallery .image:hover {
   -webkit-box-shadow: 0px 0px 20px 2px #0ff;
   -moz-box-shadow: 0px 0px 20px 2px #0ff;
