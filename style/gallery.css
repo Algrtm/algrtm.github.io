@@ -30,6 +30,7 @@
   position: relative;
   width: 100% !important;
   min-width: 0 !important;
+  margin: 0 !important;
 }
 
 #gallery .image:hover {
@@ -45,6 +46,7 @@
   height: 100%;
   transition: 0.5s ease;
   opacity:1;
+  z-index: 3;
 }
 
 #gallery .image img {
@@ -70,7 +72,7 @@
   right: 0;
   bottom: 0;
   opacity: 0;
-  z-index: 3;
+  z-index: 5;
 }
 
 #imageview {
@@ -82,7 +84,7 @@
   height: 80%;
   display: block;
   pointer-events: none;
-  z-index: 4;
+  z-index: 7;
   opacity: 0;
 
   transition: opacity 0.3s ease-in-out;
