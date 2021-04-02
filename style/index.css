@@ -6,7 +6,7 @@ body {
     font-family: 'Ubuntu', Arial, Helvetica, sans-serif;
     font-size: 22px;
     color: #fff;
-    background-color: rgb(20, 20, 20);
+    background-color: rgb(45, 45, 45);
     max-width: 90%;
     margin: auto;
     transition: all 0.5s ease;
@@ -53,7 +53,7 @@ h1 {
 
 .hint {
     font-size: inherit;
-    color: rgb(100, 100, 100);
+    color: rgb(120, 120, 120);
 }
 
 #contacts {
