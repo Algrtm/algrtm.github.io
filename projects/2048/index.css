@@ -11,8 +11,8 @@ body {
     min-height: 100%;
     margin: auto;
     transition: all 0.5s ease;
-    overflow: auto;
-    position: relative;
+    overflow: hidden;
+    height: 100%;
 
     user-select: none;
     -webkit-user-select: none;
