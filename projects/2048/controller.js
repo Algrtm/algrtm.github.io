@@ -8,17 +8,17 @@ $(function() {
     // Generic game setup
     let game = new Game(4);
 
-    game.loadGame({
-        board: [
-            2, 0, 0, 0,
-            2, 1024, 512, 0,
-            2, 0, 0, 512,
-            2, 0, 0, 8,
-        ],
-        score: 0,
-        won: false,
-        over: false,
-    });
+    // game.loadGame({
+    //     board: [
+    //         2, 0, 0, 0,
+    //         2, 1024, 512, 0,
+    //         2, 0, 0, 512,
+    //         2, 0, 0, 8,
+    //     ],
+    //     score: 0,
+    //     won: false,
+    //     over: false,
+    // });
     
     let board = new Board(game);
     
