@@ -1,29 +1,18 @@
 export default class Board {
     game;
-    tiles = [];
+    JTiles = [];
 
-    dom = $("#board");
+    boardDOM = $("#board");
     ambientLight = false;
 
-    fps = 60;
-    duration = 3;
-    frames;
-    delay;
+    animationDuration = 0.15; // Seconds
+    isMoving;
+
+    boardGap = 20; // Pixels
+    tileSize;
 
     constructor(game) {
         this.game = game;
-        // Setup JQuery tiles (divs)
-        for (let i = 0; i < 16; i++) {
-            let tile = $("<div>")
-                .attr("id", `${i}`)
-                .addClass("tile border");
-            this.tiles.push(tile);
-            this.dom.append(tile);
-        }
-
-        // Animation setup
-        this.frames = this.fps * this.duration;
-        this.delay = 1000 / this.fps;
 
         //=== Game listeners ===//
         game.onMove(gameState => {
@@ -38,7 +27,6 @@ export default class Board {
         });
         //======================//
 
-
         //===== Setup UI =====//
         // Ambient light toggle
         $(document.body).append(createToggle("Ambient light", "ambient"));
@@ -46,7 +34,7 @@ export default class Board {
         $(document.body).on("click", "#ambient", (event) => {
             if (this.ambientLight) {
                 this.ambientLight = false;
-                $("#board").css("box-shadow", "");
+                this.boardDOM.css("box-shadow", "");
                 $("#ambient").removeClass("on");
             } else {
                 this.ambientLight = true;
@@ -69,53 +57,193 @@ export default class Board {
         $(document.body).append(createButton("Reset", "reset"));
         // Reset button event
         $(document.body).on("click", "#reset", (event) => {
-            this.game.setupNewGame();
             $(document.body).removeClass("win");
-            $("#board").css("background-color", "");
-            $("#board").css("box-shadow", "");
+            this.boardDOM
+                .css("background-color", "")
+                .css("box-shadow", "");
+            this.game.setupNewGame();
+            this.setup();
             this.update();
         });
         //====================//
+
+        this.setup();
+    }
+
+    setup() {
+        this.JTiles.forEach(tile => {
+            tile.remove();
+        });
+        this.JTiles = [];
+        // Setup JQuery tiles (divs)
+        this.game.getTiles().forEach(tile => {
+            this.JTiles.push(this.createJTile(tile));
+        });
+        this.boardDOM.append(this.JTiles);
+
+        document.body.onresize = (event) => this.resize();
+        this.resize();
+
+        this.isMoving = false;
+    }
+    resize() {
+        let boardSize;
+
+        //=== Desktop version ===//
+        if (document.body.clientWidth > document.body.clientHeight) {
+            // UI
+            $("header").removeAttr("style");
+            $("#score").removeAttr("style");
+            $("#ambient")
+                .addClass("use_hover")
+                .css("top", `${(0) * 15 + 5}%`)
+                .css("left", "");
+            $("#help")
+                .addClass("use_hover")
+                .css("top", `${(1) * 15 + 5}%`)
+                .css("left", "");
+            $("#reset")
+                .addClass("use_hover")
+                .css("top", `${(2) * 15 + 5}%`)
+                .css("left", "");
+            $("#flash_screen").removeAttr("style");
+
+            // Board
+            this.boardGap = 20; // Pixels
+            let boardWidth = document.body.clientWidth * 0.8;
+            let boardHeight = document.body.clientHeight * 0.8;
+            boardSize = Math.min(boardWidth, boardHeight);
+        }
+        //=== Mobile version ===//
+        else {
+            // UI
+            $("header")
+                .css("top", "6%")
+                .css("right", "0")
+                .css("left", "50%")
+                .css("transform", "translate(-50%, -50%)");
+            $("#score")
+                .css("top", "15%")
+                .css("right", "0")
+                .css("left", "50%")
+                .css("transform", "translate(-50%, -50%)");
+            $("#ambient")
+                .removeClass("use_hover")
+                .css("top", "78%")
+                .css("left", "5%");
+            $("#help")
+                .removeClass("use_hover")
+                .css("top", "88%")
+                .css("left", "35%");
+            $("#reset")
+                .removeClass("use_hover")
+                .css("top", "88%")
+                .css("left", "5%");
+            $("#flash_screen")
+                .css("width", "100%")
+                .css("font-size", "30pt");
+
+            // Board
+            this.boardGap = 10; // Pixels
+            let boardWidth = document.body.clientWidth;
+            let boardHeight = document.body.clientHeight;
+            boardSize = Math.min(boardWidth, boardHeight);
+        }
+
+        this.boardDOM.css("width", boardSize).css("height", boardSize);
+
+        this.tileSize = boardSize/4 - this.boardGap*5/4;
+        this.game.getTiles().forEach(tile => {
+            let JTile = this.getJTileById(tile.id);
+            let pos = this.getOnBoardPos(tile.index);
+            JTile
+                .css("width", `${this.tileSize}px`)
+                .css("height", `${this.tileSize}px`)
+                .css("left", `${pos.x}px`)
+                .css("top", `${pos.y}px`); 
+        });
     }
 
     move(direction) {
-        // Move and check if cant move - skip
-        if (!this.game.move(direction)) return;
-        this.update();
+        return new Promise((resolve, reject) => {
+            // If is moving - skip
+            if (this.isMoving) return;
+            this.isMoving = true;
+            // Move and check if cant move - skip
+            if (!this.game.move(direction)) {
+                this.isMoving = false;
+                return;
+            }
+
+            let stateTiles = this.game.getStateTiles();
+            stateTiles.moved.forEach(tile => {
+                let newPos = this.getOnBoardPos(tile.index);
+                this.getJTileById(tile.id)
+                    .css("left", `${newPos.x}px`)
+                    .css("top", `${newPos.y}px`);
+            });
+
+            setTimeout(() => {
+                stateTiles.deleted.forEach(tile => {
+                    this.getJTileById(tile.id).remove();
+                });
+                this.update();
+                this.isMoving = false;
+            }, this.animationDuration * 1000);
+        });
     }
 
     update() {
-        let gameState = this.game.getGameState();
-
         // Set score
-        $("#score_input").text(gameState.score);
+        $("#score_input").text(this.game.getGameState().score);
 
-        let gameBoard = gameState.board;
-        // Tile tiles
-        for (let i = 0; i < this.tiles.length; i++) {
-            let value = gameBoard[i];
-            // Set tile's value
-            if (value != 0)
-                this.tiles[i].text(value)
-            this.tiles[i].removeAttr('style');
-    
-            // Decorate
-            if (value != 0) {
-                this.tiles[i].addClass("active");
-                this.tiles[i].css("background-color", colorToCSS(getTileColor(value), 1));
-    
-            } else
-                this.tiles[i].removeClass("active"); 
+        if (this.game.getNewTile() != null) {
+            let newTile = this.createJTile(this.game.getNewTile());
+            this.JTiles.push(newTile);
+            this.boardDOM.append(newTile);
         }
+        
+        // Tile tiles
+        this.game.getTiles().forEach(tile => {
+            let JTile = this.getJTileById(tile.id);
+            // Set tile's value
+            JTile.text(tile.value);
+            // Decorate
+            JTile.css("background-color", colorToCSS(getTileColor(tile.value), 1));
+        });
 
         if (!this.ambientLight) return;
         // Ambient lighting
         this.showAmbientLight();
     }
 
+    createJTile(tile) {
+        let pos = this.getOnBoardPos(tile.index);
+        return $("<div>")
+            .text(tile.value)
+            .attr("id", `${tile.id}`)
+            .addClass("tile border")
+            .css("transition", `all ${this.animationDuration}s ease`)
+            .css("width", `${this.tileSize}px`)
+            .css("height", `${this.tileSize}px`)
+            .css("left", `${pos.x}px`)
+            .css("top", `${pos.y}px`);
+    }
+    getJTileById(id) {
+        return $(`#${id}`);
+    }
+    getOnBoardPos(index) {
+        let col = index % 4;
+        let row = Math.floor(index / 4);
+        return {
+            x: col * (this.tileSize + this.boardGap) + this.boardGap,
+            y: row * (this.tileSize + this.boardGap) + this.boardGap
+        };
+    }
+
     showFlashScreen(text, subtext) {
         // Blur background
-        $("#board").addClass("blur");
+        this.boardDOM.addClass("blur");
         // Show text
         let fs = $("#flash_screen");
         fs.text(text);
@@ -126,7 +254,7 @@ export default class Board {
         // Hide text
         $("#flash_screen").removeClass("show");
         // Remove blur
-        $("#board").removeClass("blur");
+        this.boardDOM.removeClass("blur");
     }
     timeoutFlashScreen(text, subtext, timeout) {
         // Show text
@@ -136,7 +264,6 @@ export default class Board {
             this.hideFlashScreen();
         }, timeout);
     }
-
     showAmbientLight() {
         let average = 0;
         let total = 0;
@@ -148,7 +275,7 @@ export default class Board {
         });
         average /= total;
         let ambientLight = getTileColor(average);
-        $("#board").css("box-shadow", `0 0 40px 40px ${colorToCSS(ambientLight, 0.5)}`);
+        this.boardDOM.css("box-shadow", `0 0 40px 40px ${colorToCSS(ambientLight, 0.5)}`);
     }
 }
 
@@ -158,7 +285,7 @@ let UIOffset = 0;
 function createButton(text, id) {
     return $("<div>")
         .attr('id', id)
-        .addClass("ui button shadow border")
+        .addClass("ui use_hover button shadow border")
         .text(text)
         .css("top", `${(UIOffset++) * 15 + 5}%`);
 }
@@ -166,7 +293,7 @@ function createButton(text, id) {
 function createToggle(text, id) {
     return $("<div>")
         .attr('id', id)
-        .addClass("ui toggle shadow border")
+        .addClass("ui use_hover toggle shadow border")
         .text(text)
         .css("top", `${(UIOffset++) * 15 + 5}%`);
 }

@@ -1,13 +1,40 @@
-export default class Game {
+class Tile {
+    static IDCounter = 0;
+    id;
+    value;
+    index; prevIndex
 
-    size = 0;
+    constructor(index, value) {
+        this.id = Tile.IDCounter++;
+        this.value = value;
+        this.index = index;
+        this.prevIndex = index;
+    }
+
+    move(newIndex) {
+        if (this.index == newIndex) return false;
+        this.prevIndex = this.index;
+        this.index = newIndex;
+        return true;
+    }
+}
+
+export default class Game {
     gameState = {
         board: null,
         score: 0,
         won: false,
         over: false,
     };
-    largestTile = 0;
+    size = 0;
+    largestTileValue = 0;
+
+    // Tile objects. Main array
+    tiles = [];
+    // Keeping track of tiles
+    movedTiles = [];
+    deletedTiles = [];
+    newTile;
 
     moveListeners = [];
     winListeners = [];
@@ -31,34 +58,77 @@ export default class Game {
     //===============//
 
     //===== Main methods =====//
-    setupNewGame() {
-        this.gameState.board = new Array(this.size * this.size).fill(0);
-        this.gameState.score = 0,
-        this.gameState.won = false;
-        this.gameState.over = false;
-        this.largestTile = 0;
+    clearTmpArrays() {
+        this.movedTiles = [];
+        this.deletedTiles = [];
+        this.newTile = null;
+    }
 
+    setupNewGame() {
+        // Empty everything
+        this.gameState = {
+            board: new Array(this.size * this.size).fill(0),
+            score: 0,
+            won: false,
+            over: false,
+        };
+        this.largestTileValue = 0;
+        Tile.IDCounter = 0;
+        this.tiles = [];
+        this.clearTmpArrays();
+
+        // Create new tiles
         // Make sure that indices are unique
         let i1 = Math.floor(Math.random() * this.size * this.size);
         let i2;
         do {
             i2 = Math.floor(Math.random() * this.size * this.size);
         } while(i1 == i2);
-        this.gameState.board[i1] = (Math.random() < 0.1) ? 4 : 2;
-        this.gameState.board[i2] = (Math.random() < 0.1) ? 4 : 2;
+        this.tiles.push(new Tile(i1, (Math.random() < 0.1) ? 4 : 2));
+        this.tiles.push(new Tile(i2, (Math.random() < 0.1) ? 4 : 2));
+    }
+
+    getGameState() {
+        this.gameState.board = new Array(this.size * this.size).fill(0);
+        this.tiles.forEach(tile => {
+            this.gameState.board[tile.index] = tile.value;
+        });
+        return this.gameState;
+    }
+
+    getTiles() {
+        return this.tiles;
+    }
+    getStateTiles() {
+        return {
+            moved: this.movedTiles,
+            deleted: this.deletedTiles
+        };
+    }
+    getNewTile() {
+        return this.newTile;
     }
 
     loadGame(gameState) {
+        this.largestTileValue = 0;
+        Tile.IDCounter = 0;
+        this.tiles = [];
+        this.clearTmpArrays();
+
         this.gameState = gameState;
+        for (let i = 0; i < gameState.board.length; i++) {
+            if (gameState.board[i] == 0) continue;
+            this.tiles.push(new Tile(i, gameState.board[i]));
+            this.largestTileValue = Math.max(this.largestTileValue, gameState.board[i]);
+        }
     }
 
     move(direction) {
+        // Clear moved, new and delted tiles arrays
+        this.clearTmpArrays();
 
         // If lost - ignore inputs
         if (this.gameState.over) return false;
-
-        //Board backup to check against later
-        let prevBoard = [...this.gameState.board];
 
         // Check direction and move
         switch(direction) {
@@ -69,25 +139,34 @@ export default class Game {
         }
 
         // If move does nothing, ignore everything
-        let skipMove = true;
-        for (let i = 0; i < prevBoard.length; i++) {
-            if (prevBoard[i] != this.gameState.board[i]) {
-                skipMove = false;
-                break;
-            }
+        if (this.movedTiles.length == 0) return false;
+
+        // Remove delted tiles
+        for (let i = 0; i < this.tiles.length; i++) {
+            this.deletedTiles.forEach(delTile => {
+                if (delTile.id == this.tiles[i].id) {
+                    this.tiles.splice(i, 1);
+                    i = Math.max(0, i-1);
+                }
+            });
         }
-        if (skipMove) return false;
 
         // Look for empty space to put rnd tile
-        let emptyIndices = [];
-        for (let i = 0; i < this.size * this.size; i++)
-            if (this.gameState.board[i] == 0) emptyIndices.push(i);
-        // Literal random shenanigans
-        let newTilePosition = emptyIndices[
+        let emptyIndices = Array.from(Array(this.size * this.size).keys());
+        this.tiles.forEach(tile => {
+            for (let i = 0; i < emptyIndices.length; i++) {
+                if (tile.index == emptyIndices[i]) {
+                    emptyIndices.splice(i, 1);
+                    i--;
+                }
+            }
+        });
+        let newTileIndex = emptyIndices[
             Math.floor(Math.random() * emptyIndices.length)
         ];
-        let newTileValue = (Math.random() < 0.1) ? 4 : 2;
-        this.gameState.board[newTilePosition] = newTileValue;
+        let newTile = new Tile(newTileIndex, (Math.random() < 0.1) ? 4 : 2);
+        this.tiles.push(newTile);
+        this.newTile = newTile;
 
         // Call move listeners
         this.moveListeners.forEach(callback =>
@@ -103,7 +182,7 @@ export default class Game {
         }
 
         // Check and call win listeners
-        if (this.largestTile >= 2048) {
+        if (this.largestTileValue >= 2048) {
             // Workaround to call win once
             let prevState = this.gameState.won;
             this.gameState.won = true;
@@ -116,123 +195,131 @@ export default class Game {
 
         return true;
     }
-
-    getGameState() {
-        return this.gameState;
-    }
     //========================//
 
     // Check if board has possible moves
     hasMoves() {
-        let board = boardToMatrix(this.gameState.board, this.size);
-        // This looks like ..., 
-        // but it is faster than nested if-else's in a loop.
-        // Check inner matrix
-        for (let y = 1; y < board.length - 1; y++) {
-            for (let x = 1; x < board[0].length - 1; x++) {
-                // console.log(board[y][x]);
-                if (board[y][x] == board[y-1][x] || 
-                    board[y][x] == board[y+1][x] || 
-                    board[y][x] == board[y][x-1] || 
-                    board[y][x] == board[y][x+1])
-                    return true;
-            }
+        for (let i = 0; i < this.tiles.length; i++) {
+            let tile = this.tiles[i];
+            for (let j = 0; j < this.tiles.length; j++) {
+                if (i == j) continue;
+                let nbr = this.tiles[j];
+                // Check if two tile are neighbours
+                if ((
+                        tile.index == nbr.index + 1
+                        || tile.index == nbr.index - 1
+                        || tile.index == nbr.index + this.size
+                        || tile.index == nbr.index - this.size)                     
+                    && !(
+                        tile.index % 4 != nbr.index % 4
+                        && Math.floor(tile.index / 4) != Math.floor(nbr.index / 4))
+                    ) {
+                        // If same value - at least one valid move
+                        if (tile.value == nbr.value) return true;
+                }
+            }   
         }
-        // Quick check corners
-        let hasMoves = 
-            board[0][0] == board[1][0] ||
-            board[0][0] == board[0][1] ||
-            board[board.length-1][0] == board[board.length-2][0] ||
-            board[board.length-1][0] == board[board.length-1][1] ||
-            board[0][board.length-1] == board[1][board.length-1] ||
-            board[0][board.length-1] == board[0][board.length-2] ||
-            board[board.length-1][board.length-1] == board[board.length-2][board.length-1] ||
-            board[board.length-1][board.length-1] == board[board.length-1][board.length-2];
-        // Check perimeter
-        for (let i = 1; i < this.size; i++) {
-            if (board[0][i-1] == board[0][i] ||
-                board[this.size-1][i-1] == board[this.size-1][i] ||
-                board[i-1][0] == board[i][0] ||
-                board[i-1][this.size-1] == board[i][this.size-1])
-                return true;
-        }
-
-        return hasMoves;
+        return false;
     }
 
     // Shift array left
-    shift(arr) {
-        let shifted = [];
-        // Shift left
-        arr.forEach(num => {
-            if (num != 0) shifted.push(num);
-        });
-        return shifted;
-    }
-    // Shift left and combine
-    shiftAdd(arr) {
-        // Initial shift
-        let shifted = this.shift(arr);
+    shift(dirTiles, offset, dir) {
+        // Calcualte new indices
+        let indexStep = (dir.includes('x')) ? 1 : this.size;
+        let indexStart = offset * ((dir.includes('x')) ? this.size : 1);
+        for (let i = 0; i < dirTiles.length; i++) {
+            // if (this.movedTiles.includes(dirTiles[i])) continue;
 
-        // Check and combine neighbouring elements
-        for (let i = 1; i < shifted.length; i++) {
-            if (shifted[i-1] == shifted[i]) {
-                shifted[i-1] *= 2;
-                shifted[i] = 0;
-                // Set largest tile
-                this.largestTile = Math.max(this.largestTile, shifted[i-1]);
-                // Update score
-                this.gameState.score += shifted[i-1];
+            let scaledIndex = i * indexStep + indexStart;
+            if (dir.includes('-'))
+                scaledIndex = (this.size - i - 1) * indexStep + indexStart;
+            
+            // Set new index
+            if (dirTiles[i].move(scaledIndex)) {
+                this.movedTiles.push(dirTiles[i]);
             }
         }
 
-        // Final shift
-        shifted = this.shift(shifted);
+        return dirTiles;
+    }
+    // Shift left and combine
+    shiftAdd(offset, dir) {
+        // Calculate boundaries
+        let xOffset = (dir.includes('x')) ? 0 : offset;
+        let yOffset = (dir.includes('y')) ? 0 : offset;
+        let xDir = (dir.includes('x')) ? 1 : 0;
+        let yDir = (dir.includes('y')) ? 1 : 0;
+        xDir *= (dir.includes('-')) ? -1 : 1;
+        yDir *= (dir.includes('-')) ? -1 : 1;
+        // Find the tiles and shift
+        let tmp = [];
+        this.tiles.forEach(tile => {
+            let x = tile.index % this.size;
+            let y = Math.floor(tile.index / this.size);
+            if (x >= xOffset
+                && x <= xOffset + Math.abs(xDir * this.size)
+                && y >= yOffset
+                && y <= yOffset + Math.abs(yDir * this.size)) {
+                    tmp.push(tile);
+            }
+        });
+        tmp.sort((a, b) => a.index - b.index);
+        // Reverse if shift in opposite direction
+        let dirTiles = tmp;
+        if (dir.includes('-')) dirTiles = tmp.reverse();
 
-        // Fill in zeros
-        let d = arr.length - shifted.length;
-        for (let i = 0; i < d; i++) shifted.push(0);
-        return shifted;
+        // Shift array
+        dirTiles = this.shift(dirTiles, offset, dir);
+
+        // Check and combine neighbouring elements
+        for (let i = 1; i < dirTiles.length; i++) {
+            if (dirTiles[i-1].value == dirTiles[i].value) {
+                dirTiles[i-1].value *= 2;
+
+                // Sync movement
+                dirTiles[i].index = dirTiles[i-1].index;
+                this.movedTiles.push(dirTiles[i]);
+                this.deletedTiles.push(dirTiles.splice(i, 1)[0]);
+
+                // Set largest tile
+                this.largestTileValue = Math.max(this.largestTileValue, dirTiles[i-1].value);
+                // Update score
+                this.gameState.score += dirTiles[i-1].value;
+            }
+        }
+
+        // Second shift
+        dirTiles = this.shift(dirTiles, offset, dir);
+
+        // Sync movement
+        // this.deletedTiles.forEach(delTile => {
+        //     dirTiles.forEach(dirTile => {
+        //         if (delTile.index == dirTile.prevIndex)
+        //             delTile.index = dirTile.index;
+        //     });
+        // });
     }
 
     //=====Move stuff around=====//
     moveUp() {
-        // Transpose board matrix to get columns
-        let cols = matTranspose(boardToMatrix(this.gameState.board, this.size));
-        let newCols = [];
-        cols.forEach(col => newCols.push(this.shiftAdd(col)));
-        // Rasterize matrix
-        this.gameState.board = matrixToBoard(matTranspose(newCols));
+        for (let col = 0; col < this.size; col++) {
+            this.shiftAdd(col, 'y');
+        }
     }
     moveDown() {
-        // Transpose board matrix to get columns
-        let cols = matTranspose(boardToMatrix(this.gameState.board, this.size));
-        let newCols = [];
-        // Double reverse to shift in opposite direction
-        cols.forEach(col => 
-            newCols.push(
-                this.shiftAdd(col.reverse()).reverse())
-        );
-        // Rasterize matrix
-        this.gameState.board = matrixToBoard(matTranspose(newCols));
+        for (let col = 0; col < this.size; col++) {
+            this.shiftAdd(col, '-y');
+        }
     }
     moveLeft() {
-        let rows = boardToMatrix(this.gameState.board, this.size);
-        let newRows = [];
-        rows.forEach(row => newRows.push(this.shiftAdd(row)));
-        // Rasterize matrix
-        this.gameState.board = matrixToBoard(newRows);
+        for (let row = 0; row < this.size; row++) {
+            this.shiftAdd(row, 'x');
+        }
     }
     moveRight() {
-        let rows = boardToMatrix(this.gameState.board, this.size);
-        let newRows = [];
-        // Double reverse to shift in opposite direction
-        rows.forEach(row => 
-            newRows.push(
-                this.shiftAdd(row.reverse()).reverse())
-        );
-        // Rasterize matrix
-        this.gameState.board = matrixToBoard(newRows);
+        for (let row = 0; row < this.size; row++) {
+            this.shiftAdd(row, '-x');
+        }
     }
     //===========================//
 
@@ -249,43 +336,4 @@ export default class Game {
         }
         return str;
     }
-}
-
-// NEED THIS
-// Raster to square matrix
-function boardToMatrix(board, size) {
-    let matrix = new Array(size);
-    for (let row = 0; row < size; row++) {
-        matrix[row] = new Array(size);
-        for (let col = 0; col < size; col++) {
-            matrix[row][col] = board[row * size + col];
-        }
-    }
-    return matrix;
-}
-
-// AND THIS
-// Matrix to raster
-function matrixToBoard(board) {
-    let size = board.length;
-    let raster = [];
-    for (let row = 0; row < size; row++) {
-        for (let col = 0; col < size; col++) {
-            raster.push(board[row][col]);
-        }
-    }
-    return raster;
-}
-
-// THAT TOO
-// Matrix transpose
-function matTranspose(mat) {
-    let matrix = new Array(mat[0].length);
-    for (let row = 0; row < matrix.length; row++) {
-        matrix[row] = new Array(mat.length);
-        for (let col = 0; col < matrix[0].length; col++) {
-            matrix[row][col] = mat[col][row];
-        }
-    }
-    return matrix;
 }
