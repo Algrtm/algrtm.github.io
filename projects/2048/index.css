@@ -1,6 +1,5 @@
 html {
     height: 100%;
-    position: fixed;
 }
 
 body {
@@ -13,8 +12,8 @@ body {
     margin: auto;
     transition: all 0.5s ease;
     overflow: hidden;
-    position: fixed;
-    height: 100%;
+    /* position: fixed; */
+    /* height: 100%; */
 
     user-select: none;
     -webkit-user-select: none;
